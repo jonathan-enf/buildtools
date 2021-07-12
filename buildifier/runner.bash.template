@@ -37,5 +37,7 @@ find . \
     -o -name 'WORKSPACE.*.bazel' \
     -o -name 'WORKSPACE.*.oss' \
   \) -print \
-  | xargs grep --files-without-match "buildifier: skip-this-file" \
+  | xargs grep --files-without-match \
+    -e "buildifier: skip-this-file" \
+    -e "cadence_xrun_test" \
   | xargs "$buildifier_short_path" "${ARGS[@]}"
