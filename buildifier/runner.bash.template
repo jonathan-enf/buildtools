@@ -1,4 +1,7 @@
 #! /usr/bin/env bash
+#
+# This is the standard runner.bash.template, modified to implement
+# the "buildifier: skip-this-file" pragma.
 
 BUILDIFIER_SHORT_PATH=@@BUILDIFIER_SHORT_PATH@@
 ARGS=@@ARGS@@
@@ -33,4 +36,6 @@ find . \
     -o -name WORKSPACE.oss \
     -o -name 'WORKSPACE.*.bazel' \
     -o -name 'WORKSPACE.*.oss' \
-  \) -print | xargs "$buildifier_short_path" "${ARGS[@]}"
+  \) -print \
+  | xargs grep --files-without-match "buildifier: skip-this-file" \
+  | xargs "$buildifier_short_path" "${ARGS[@]}"
